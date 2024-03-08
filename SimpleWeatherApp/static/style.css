@@ -1,106 +1,44 @@
 @import url("https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
   font-family: "Fira Sans", sans-serif;
-  color: #ffff;
-  text-decoration: none;
-}
-
-body {
-  background-color: #0e1111;
-}
-
-.title {
-  font-size: 2rem;
-  font-weight: 700;
-  margin-top: 1rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  font-weight: 400;
 }
 
 .container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  margin-top: 40px;
 }
 
-.container form button {
-  display: inline-block;
-  justify-content: center;
-  align-items: center;
-  margin-top: 2rem;
-}
-
-input {
-  padding: 0.5rem 1rem;
-  border: none;
-  background-color: #f1356d;
-  color: #ffff;
+.btn-custom {
+  background-color: #c034a1;
+  color: white;
+  border: 1px solid #000;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
   cursor: pointer;
-  font-size: 1rem;
-  font-weight: 700;
-  transition: all 0.3s ease;
-  margin-left: 10px;
+  transition: ease-in-out 0.3s;
+  border: none;
+}
+
+.btn-custom:hover {
+  background-color: #a02e8a;
+  transition: ease-in-out 0.3s; 
+  transform: scale(1.001);
+}
+
+.btn-custom:active {
+  background-color: #a02e8a;
+  transform: scale(0.98);
+  border: 1px solid #ffffff;
+}
+
+
+.background{
+  background-color: rgba(255, 255, 255, 0.1);
   border-radius: 20px;
 }
-
-input:hover {
-  background-color: #d13f71; /* zmiana koloru w momencie najechania kursorem */
-}
-
-button {
-  padding: 0.5rem 1rem;
-  border: none;
-  background-color: #f1356d;
-  color: #ffff;
-  cursor: pointer;
-  font-size: 1rem;
-  font-weight: 700;
-  transition: all 0.3s ease;
-  margin-left: 10px;
+.custom-card{
+  background-color: rgba(255, 255, 255, 0.02);
   border-radius: 20px;
-}
-
-button:hover {
-  background-color: #f1356d;
-  transform: scale(1.1);
-}
-
-.answer {
-  width: 1000px;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 2rem;
-  background-color: rgba(255, 255, 255, 0.14);
-}
-
-.answer p {
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-top: 1rem;
-}
-
-.answer i {
-  color: #35aff1;
-}
-
-footer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 2rem;
-}
-
-footer p,
-a {
-  font-size: 1rem;
-  font-weight: 700;
-  margin-top: 10rem;
-  font-family: "Courier New", Courier, monospace;
 }

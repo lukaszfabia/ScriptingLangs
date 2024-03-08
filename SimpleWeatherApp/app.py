@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 from WeatherRequest import WeatherRequest
 from LocationManager import get_location
+import socket
 
 app = Flask(__name__)
 
@@ -20,6 +21,10 @@ def search(city):
     weather = WeatherRequest(coords=location).wrap_in_data_model()
     return render_template('search.html', data=weather, value=city)
 
+@app.errorhandler(404)
+def page_not_found(e):
+    return home()
+
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host=socket.gethostbyname(socket.gethostname()), debug=True)
