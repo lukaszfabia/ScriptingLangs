@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="{{ url_for('static', filename='style.css') }}"
+  />
+
+  <body>
+    <div class="title">
+      <h1>Simple weather app</h1>
+    </div>
+    <main class="container">
+      <form action="/" method="POST">
+        <input type="text" name="input" placeholder="search city..." value="{{value}}">
+        <button type="submit">Search</button>
+      </form>
+    </main>
+    {% block content %} {% endblock %}
+
+    <footer>
+      <p>Created by: <a href="https://github.com/lukaszfabia">lukaszfabia</a>
+    </footer>
+  </body>
+</html>

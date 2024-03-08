@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main class="answer">
+  <h1>Weather in <i>{{ data.city_name }}</i>, <i>{{ data.country }}</i></h1>
+  <p>Main: <i>{{ data.main }}</i></p>
+  <p>Description: <i>{{ data.description }}</i></p>
+  <p>Temp: <i>{{ data.temp }}</i></p>
+  <p>Temp feels like: <i>{{data.feels_like}}</i></p>
+  <p>Pressure: <i>{{data.pressure}}</i></p>
+</main>
+{% endblock %}
+
