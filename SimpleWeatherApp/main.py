@@ -3,9 +3,9 @@ import requests
 if __name__ == '__main__':
     r = requests.get('https://api.github.com/events')
     print(r.json()[0]) # first element of the json list 
-    r = requests.post('https://httpbin.org/post', data={'key': 'value'})
+    r = requests.post('https://httpbin.org/post', data={'python': 'requests'})
     print(r.text)
-    r = requests.put('https://httpbin.org/put', data={'key': 'value'})
+    r = requests.put('https://httpbin.org/put', data={'python': 'requests'})
     print(r.text)
     r = requests.delete('https://httpbin.org/delete')
     print(r.text)

@@ -5,7 +5,7 @@
 **Requests** to modul umożliwiający wykonywanie żądań *http*. 
 
 Gdzie mogę użyć:
-- web scraping, requests i BeautifulSoup idą ze sobą w parze bo wykonujemy żądanie GET i dostajemy stronę, z której będziemy pobierać dane przy użyciu tego drugiego
+- web scraping, requests i BeautifulSoup idą ze sobą w parze bo wykonujemy żądanie GET i dostajemy stronę, z której będziemy wybierać insteresujące nas dane przy użyciu tego drugiego
 
 - pobieranie API
 
