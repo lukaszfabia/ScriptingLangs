@@ -19,6 +19,13 @@
     crossorigin="anonymous"
   />
 
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Borel&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+    rel="stylesheet"
+  />
+
   <link
     rel="stylesheet"
     type="text/css"
@@ -28,7 +35,13 @@
   <body class="d-flex flex-column">
     <div class="container wrapper">
       <div class="row text-center mt-2">
-        <h1>Simple weather app</h1>
+        <div class="custom-header">
+          <h1>
+            <a href="/"
+              >Simple weather app</a
+            >
+          </h1>
+        </div>
       </div>
       <main class="row text-center background" style="margin-top: 60px">
         <div class="col-md-6 py-3">{% include 'form.html' %}</div>
