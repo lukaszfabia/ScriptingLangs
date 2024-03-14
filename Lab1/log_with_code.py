@@ -3,7 +3,7 @@ from iostream import *
 
 
 def log_with_code(log: str, code: str) -> None:
-    if is_exists(log, code):
+    if get_code(log, code)[0]:
         print(log)
 
 

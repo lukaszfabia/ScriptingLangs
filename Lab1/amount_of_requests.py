@@ -7,11 +7,11 @@ CODE404: int = 0
 
 def update_amount_of_requests(log: str) -> None:
     global CODE200, CODE302, CODE404
-    if is_exists(log, '200'):
+    if get_code(log, '200')[0]:
         CODE200 += 1
-    elif is_exists(log, '302'):
+    elif get_code(log, '302')[0]:
         CODE302 += 1
-    elif is_exists(log, '404'):
+    elif get_code(log, '404')[0]:
         CODE404 += 1
 
 

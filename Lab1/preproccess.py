@@ -24,9 +24,9 @@ def parse(log: str, regex: str):
         return ""
 
 
-def is_exists(log: str, code: str) -> bool:
+def get_code(log: str, code: str) -> tuple[bool, str]:
     parsed = parse(log, f'{REGEX_FOR_CODE}{code}')
-    return parsed[0] != "" if parsed else False
+    return parsed[0] != "" if parsed else False, code
 
 
 def gb_sent(log: str) -> float:
@@ -57,7 +57,7 @@ def get_date_and_time(log: str) -> tuple[tuple[int, str, int], time]:
 
 
 if __name__ == '__main__':
-    print(is_exists(log, '302'))
+    print(get_code(log, '201'))
     print(gb_sent(log))
     print(get_path(log))
     print(get_host(log))
