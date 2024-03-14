@@ -1,8 +1,13 @@
 echo "Running the program with the NASA file"
+echo "Available scripts:"
 
-path_to_file=$PWD/Lab1/NASA
-path_to_script=$PWD/Lab1/main.py
+ls Lab1/*.py
 
-python $path_to_script < $path_to_file
+read -p "Write down file with extension and params: " file
+
+path_to_file=$PWD/Lab1/NASA.txt
+path_to_script=$PWD/Lab1/$file
+python $path_to_script $@ < $path_to_file
+
 
 echo "End of the program"

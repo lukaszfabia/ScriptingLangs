@@ -1,6 +1,7 @@
-from preproccess_line.preproccess import gb_sent, get_path
+from iostream import read_std
+from preproccess import gb_sent, get_path
+from present_data import print_output
 
-# Funkcja, która wypisuje na wyjście standardowe ścieżkę i rozmiar największego zasobu.
 MAX_RESOURCE: int = 0
 PATH: str = ""
 
@@ -15,3 +16,8 @@ def update_max_resource(log: str):
 
 def get_max_resource_and_path() -> tuple[int, str]:
     return MAX_RESOURCE, PATH
+
+
+if __name__ == '__main__':
+    read_std(update_max_resource)
+    print_output(max_resource=f'{get_max_resource_and_path()}')
