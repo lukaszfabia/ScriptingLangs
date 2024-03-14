@@ -1,7 +1,7 @@
 import re
 from datetime import time
 
-log = '199.72.81.55 - - [01/Jul/1995:12:34:01 -0400] "GET /history/apollo/ HTTP/1.0" 200 6245'
+log = 'link097.txdirect.net - - [01/Jul/1995:00:05:06 -0400] "GET /shuttle HTTP/1.0" 302 -'
 
 REGEX_FOR_CODE = r'\[.*\] "(.*)" '
 

@@ -1,6 +1,9 @@
 import re
 from datetime import datetime
 
+log = 'ix-sd11-26.ix.netcom.com - - [01/Jul/1995:00:05:06 -0400] "GET /cgi-bin/imagemap/countdown?107,144 HTTP/1.0" 302 3243296'
+log1 = 'ix-sd11-26.ix.netcom.com - - [01/Jul/1995:00:05:06 -0400] "GET /cgi-bin/imagemap/countdown?107,144 HTTP/1.0" 302 -'
+
 mapping_month = {
     'Jan': 1,
     'Feb': 2,
@@ -27,14 +30,16 @@ class ParseLog:
         self.method_: str = None
         self.path_: str = None
         self.code_: int = None
-        self.bytes_: str = None
+        self.bytes_: int = None
+        self.wrap_log()
 
     def parse_date(self, date: str) -> datetime:
         date_ = re.split(r'[/:]', date)
-        date_ = [int(curr) if curr!='Jul' else int(mapping_month.get(curr)) for curr in date_]
+        date_ = [int(curr) if curr != 'Jul' else int(
+            mapping_month.get(curr)) for curr in date_]
         return datetime(day=date_[0], month=date_[1], year=date_[2], hour=date_[3], minute=date_[4], second=date_[5])
-    
-    def set_data(self, parsed_log: re.Match[str])-> None:
+
+    def set_data(self, parsed_log: re.Match[str]) -> None:
         self.host_ = parsed_log.group(1)
         self.date_ = self.parse_date(parsed_log.group(2))
         self.method_ = parsed_log.group(4)
@@ -42,8 +47,17 @@ class ParseLog:
         self.code_ = parsed_log.group(6)
         self.bytes_ = parsed_log.group(7)
 
-    def wrap_log(self) -> tuple:
+    def wrap_log(self) -> None:
         match_ = re.search(string=self.log_, pattern=self.regex_)
         if match_:
             self.set_data(match_)
-            return (self.host_, self.date_, self.method_, self.path_, self.code_, self.bytes_)
+
+    def __repr__(self) -> str:
+        return repr((self.host_, self.date_, self.method_, self.path_, self.code_, self.bytes_))
+
+
+p = ParseLog(log)
+print(p)
+
+p1 = ParseLog(log1)
+print(p1)
