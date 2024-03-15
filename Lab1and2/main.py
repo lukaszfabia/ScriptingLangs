@@ -1,14 +1,10 @@
 from iostream import *
-from logs_on_specific_day import print_logs_on_specific_day
-from max_bytes import get_max_bytes
 
 # 691502 klothos.crl.research.digital.com - - [10/Jul/1995:16:45:50 -0400] "♣☺" 400 -
 # 1421674 firewall.dfw.ibm.com - - [20/Jul/1995:07:34:34 -0400] "1/history/apollo/images/" 400 -
 # 1422423 firewall.dfw.ibm.com - - [20/Jul/1995:07:53:24 -0400] "1/history/apollo/images/" 400 -
 # 1454419 128.159.122.20 - - [20/Jul/1995:15:28:50 -0400] "k��♥tx��♦tG��t̓�" 400 -
 # 1649963 128.159.122.20 - - [24/Jul/1995:13:52:50 -0400] "k��♥tx��♦tG��t̓�" 400 -
-
-log2 = 'firewall.dfw.ibm.com - - [20/Jul/1995:07:53:24 -0400] "1/history/apollo/images/" 400 -'
 
 
 def sort_log(logs, key=None):
@@ -36,7 +32,7 @@ def get_entries_by_code(logs, code: str):
             yield log
 
 
-def get_failed_reads(logs, is_merged=True) -> list | tuple[list, list]:
+def get_failed_reads(logs, is_merged=False) -> list | tuple[list, list]:
     failed_logs = []
     lst4xx = []
     lst5xx = []
@@ -65,11 +61,7 @@ def print_entries(lst):
 
 
 def log_to_dict(logs: list) -> dict:
-    acc = {}
-    for log in logs:
-        acc.update({log.host_: log.__dict__()})
-
-    return acc
+    return dict(map(lambda log: (log, log.__dict__()), logs))
 
 
 def get_addrs(logs: dict):
@@ -77,7 +69,7 @@ def get_addrs(logs: dict):
         yield log
 
 
-def print_dict_entry_dates(logs: dict):
+def summarize_logs(logs: dict):
     """prints the dates of the logs for each host
         model of the dictionary:
         {
@@ -94,27 +86,37 @@ def print_dict_entry_dates(logs: dict):
     Args:
         logs (dict): logs as dictionary
     """
-    data = {}
-    for host, log in logs.items():
-        if host in data:
-            data[host]['amount of requests'] = data[host].get(
-                'amount of requests', 0) + 1
-            data[host]['last request'] = log['date']
-        else:
-            data[host] = {
-                'amount of requests': 1,
-                'first request': log['date'],
-                'last request': log['date']
-            }
-        if log['code'] == 200:
-            data['ratio'] = data.get('ratio', 0) + 1
-    data['ratio'] = data['ratio'] / len(logs)
+    data = {
+        'ratio': 0
+    }
 
+    for key, value in logs.items():
+        if key.host_ in data:
+            data.update({key.host_: {
+                'amount of requests': data[key.host_].get('amount of requests', 0) + 1,
+                'last request': value['date'],
+                'first request': data[key.host_]['first request']
+            }})
+        else:
+            data.update({key.host_: {
+                'amount of requests': 1,
+                'first request': value['date'],
+                'last request': value['date']
+            }})
+
+        if value['code'] == 200:
+            data['ratio'] = data.get('ratio', 0) + 1
+    data['ratio'] = round(data['ratio'] / len(logs), 2)
+
+    return data
+
+def print_dict_entry_dates(data: dict):
     for host, log in data.items():
         if host != 'ratio':
-            print(f'{host}: amount of requests: {log["amount of requests"]}, first request:'
-                  f'{log["first request"]} last request: {log["last request"]}')
-    print(f'ratio: {data["ratio"]}')
+            print(f'\n\n{host}:\n\n\tamount of requests: {log["amount of requests"]}')
+            print(f'\tfirst request: {log["first request"]}')
+            print(f'\tlast request: {log["last request"]}')
+    print(f'\nratio: {data["ratio"]}')
 
 
 if __name__ == '__main__':
@@ -125,9 +127,9 @@ if __name__ == '__main__':
     # print(get_entries_by_addr(lst, 'pl'))
     # print()
     # print_entries(lst)
-    lst = list(read_log())
+    lst = list(read_file('tmp.txt'))
     dic = log_to_dict(lst)
     keys = get_addrs(dic)
-    print_dict_entry_dates(dic)
+    print_dict_entry_dates(summarize_logs(dic))
     # for elem in get_entries_by_extension(lst, '.gif'):
     #     print(elem)

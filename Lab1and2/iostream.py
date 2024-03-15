@@ -1,8 +1,8 @@
 import sys
 from Parser import ParsedLog
 
-def read_file():
-    with open('C:/Users/ufabi/Desktop/ScriptingLangs/Lab1and2/tmp.txt', 'r', encoding='UTF-8') as f:
+def read_file(filename: str):
+    with open(f'../ScriptingLangs/Lab1and2/{filename}', 'r', encoding='UTF-8') as f:
         for line in f:
             log = ParsedLog(line.rstrip())
             if log.matched:

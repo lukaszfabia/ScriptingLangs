@@ -1,5 +1,6 @@
 import re
 from datetime import datetime
+
 mapping_month = {
     'Jan': 1,
     'Feb': 2,
@@ -18,7 +19,16 @@ mapping_month = {
 log = 'ix-sd11-26.ix.netcom.com - - [01/Jul/1995:00:05:06 -0400] "GET /cgi-bin/imagemap/countdown?107,144 HTTP/1.0" 302 3243296'
 log1 = 'ix-sd11-26.ix.netcom.com - - [01/Jul/1995:00:05:06 -0400] "GET / HTTP/1.0" 302 -'
 
-REGEX = r'^(\S+) - - \[(\d{2}/\w{3}/\d{4}:\d{2}:\d{2}:\d{2}) ([+\-]\d{4})\] "(\S+).*? (\S+).*?" (\d{3}) (\S+)'
+host = r'(\S+)'
+date = r'(\d{2}/\w{3}/\d{4}:\d{2}:\d{2}:\d{2})'
+timezone = r'([+\-]\d{4})'
+method = r'"(\S+)'
+path = r'(\S+)'
+response_code = r'(\d{3})'
+byte_size = r'(\S+)'
+
+REGEX = r'^' + host + r' - - \[' + date + r' ' + timezone + r'\] ' + \
+    method + r'.*? ' + path + r'.*?" ' + response_code + r' ' + byte_size
 
 
 class ParsedLog:
