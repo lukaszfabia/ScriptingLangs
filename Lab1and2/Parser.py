@@ -17,7 +17,6 @@ mapping_month = {
 
 log = 'ix-sd11-26.ix.netcom.com - - [01/Jul/1995:00:05:06 -0400] "GET /cgi-bin/imagemap/countdown?107,144 HTTP/1.0" 302 3243296'
 log1 = 'ix-sd11-26.ix.netcom.com - - [01/Jul/1995:00:05:06 -0400] "GET / HTTP/1.0" 302 -'
-log2 = 'firewall.dfw.ibm.com - - [20/Jul/1995:07:53:24 -0400] "1/history/apollo/images/" 400 -'
 
 REGEX = r'^(\S+) - - \[(\d{2}/\w{3}/\d{4}:\d{2}:\d{2}:\d{2}) ([+\-]\d{4})\] "(\S+).*? (\S+).*?" (\d{3}) (\S+)'
 
@@ -60,7 +59,7 @@ class ParsedLog:
 
     def __repr__(self) -> str:
         return repr((self.host_, self.date_, self.method_, self.path_, self.code_, self.bytes_))
-    
+
     def __dict__(self) -> dict:
         return {
             'host': self.host_,
@@ -70,9 +69,3 @@ class ParsedLog:
             'code': self.code_,
             'bytes': self.bytes_
         }
-
-
-
-p = ParsedLog(log)
-
-print(p.__dict__())

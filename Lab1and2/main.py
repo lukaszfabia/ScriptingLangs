@@ -10,6 +10,7 @@ from max_bytes import get_max_bytes
 
 log2 = 'firewall.dfw.ibm.com - - [20/Jul/1995:07:53:24 -0400] "1/history/apollo/images/" 400 -'
 
+
 def sort_log(logs, key=None):
     def aux(logs):
         if key:
@@ -63,16 +64,58 @@ def print_entries(lst):
         print(entry)
 
 
-def entry_to_dict(log: ParsedLog) -> dict:
-    return log.__dict__()
-
-
 def log_to_dict(logs: list) -> dict:
     acc = {}
     for log in logs:
-        acc.update({log: entry_to_dict(log)})
+        acc.update({log.host_: log.__dict__()})
 
     return acc
+
+
+def get_addrs(logs: dict):
+    for log in logs.keys():
+        yield log
+
+
+def print_dict_entry_dates(logs: dict):
+    """prints the dates of the logs for each host
+        model of the dictionary:
+        {
+            'host1': {
+                'amount of requests': int, 
+                'fist request': datetime,
+                'last request': datetime
+            },
+            'host2': {
+                ...
+            }, 
+            'ratio' : float # amount of requests with code / total amount of requests
+        }
+    Args:
+        logs (dict): logs as dictionary
+    """
+    data = {}
+    for host, log in logs.items():
+        if host in data:
+            data[host]['amount of requests'] = data[host].get(
+                'amount of requests', 0) + 1
+            data[host]['last request'] = log['date']
+        else:
+            data[host] = {
+                'amount of requests': 1,
+                'first request': log['date'],
+                'last request': log['date']
+            }
+        if log['code'] == 200:
+            data['ratio'] = data.get('ratio', 0) + 1
+    data['ratio'] = data['ratio'] / len(logs)
+
+    for host, log in data.items():
+        if host != 'ratio':
+            print(f'{host}: amount of requests: {log["amount of requests"]}, first request:'
+                  f'{log["first request"]} last request: {log["last request"]}')
+    print(f'ratio: {data["ratio"]}')
+
 
 if __name__ == '__main__':
     # lst = list(read_log())
@@ -82,9 +125,9 @@ if __name__ == '__main__':
     # print(get_entries_by_addr(lst, 'pl'))
     # print()
     # print_entries(lst)
-    lst = list(read_file())
-    print(log_to_dict(lst))
-    # for elem in get_failed_reads(lst, False):
-    #     print(f'{elem[0]}\n{elem[1]}')
+    lst = list(read_log())
+    dic = log_to_dict(lst)
+    keys = get_addrs(dic)
+    print_dict_entry_dates(dic)
     # for elem in get_entries_by_extension(lst, '.gif'):
     #     print(elem)

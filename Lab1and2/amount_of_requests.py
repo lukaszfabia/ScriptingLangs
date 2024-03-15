@@ -23,7 +23,8 @@ def reduce_requests(logs) -> str:
                 pass
     return f'code 200: {code200}\ncode 302: {code302}\ncode 404: {code404}'
 
+
 if __name__ == '__main__':
-    # logs = list(read_log())
-    logs = list(read_file())
+    logs = list(read_log())
+    # logs = list(read_file())
     print(reduce_requests(logs))
