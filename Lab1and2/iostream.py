@@ -1,10 +1,10 @@
 import sys
-from Parser import ParseLog
+from Parser import ParsedLog
 
 def read_file():
-    with open('C:/Users/ufabi/Desktop/ScriptingLangs/Lab2/NASA.txt', 'r', encoding='UTF-8') as f:
+    with open('C:/Users/ufabi/Desktop/ScriptingLangs/Lab1and2/tmp.txt', 'r', encoding='UTF-8') as f:
         for line in f:
-            log = ParseLog(line.rstrip())
+            log = ParsedLog(line.rstrip())
             if log.matched:
                 yield log
             else:
@@ -13,7 +13,7 @@ def read_file():
 
 def read_log():
     for line in sys.stdin:
-        curr = ParseLog(line.rstrip())
+        curr = ParsedLog(line.rstrip())
         if curr.matched:
             yield curr
         else:

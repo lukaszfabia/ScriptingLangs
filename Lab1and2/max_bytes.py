@@ -4,7 +4,7 @@ from iostream import *
 
 def get_max_bytes(logs: list):
     res = reduce(lambda current_max, curr: current_max if current_max.bytes_ > curr.bytes_ else curr, logs).bytes_
-    return round(res/1024**3, 7)
+    return res
 
 
 if __name__ == '__main__':

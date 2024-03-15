@@ -22,7 +22,7 @@ log2 = 'firewall.dfw.ibm.com - - [20/Jul/1995:07:53:24 -0400] "1/history/apollo/
 REGEX = r'^(\S+) - - \[(\d{2}/\w{3}/\d{4}:\d{2}:\d{2}:\d{2}) ([+\-]\d{4})\] "(\S+).*? (\S+).*?" (\d{3}) (\S+)'
 
 
-class ParseLog:
+class ParsedLog:
 
     def __init__(self, log: str) -> None:
         self.regex_ = REGEX
@@ -60,4 +60,19 @@ class ParseLog:
 
     def __repr__(self) -> str:
         return repr((self.host_, self.date_, self.method_, self.path_, self.code_, self.bytes_))
+    
+    def __dict__(self) -> dict:
+        return {
+            'host': self.host_,
+            'date': self.date_,
+            'method': self.method_,
+            'path': self.path_,
+            'code': self.code_,
+            'bytes': self.bytes_
+        }
 
+
+
+p = ParsedLog(log)
+
+print(p.__dict__())

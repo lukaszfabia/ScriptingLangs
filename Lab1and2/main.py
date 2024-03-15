@@ -8,6 +8,7 @@ from max_bytes import get_max_bytes
 # 1454419 128.159.122.20 - - [20/Jul/1995:15:28:50 -0400] "k��♥tx��♦tG��t̓�" 400 -
 # 1649963 128.159.122.20 - - [24/Jul/1995:13:52:50 -0400] "k��♥tx��♦tG��t̓�" 400 -
 
+log2 = 'firewall.dfw.ibm.com - - [20/Jul/1995:07:53:24 -0400] "1/history/apollo/images/" 400 -'
 
 def sort_log(logs, key=None):
     def aux(logs):
@@ -62,13 +63,16 @@ def print_entries(lst):
         print(entry)
 
 
-def print_logs_on_specific_day(logs, day='Friday') -> None:
-    for log in logs:
-        # Pobieramy nazwę dnia tygodnia z obiektu datetime
-        day_name = log.date_.strftime('%A')
-        if day_name == day:
-            print(log)
+def entry_to_dict(log: ParsedLog) -> dict:
+    return log.__dict__()
 
+
+def log_to_dict(logs: list) -> dict:
+    acc = {}
+    for log in logs:
+        acc.update({log: entry_to_dict(log)})
+
+    return acc
 
 if __name__ == '__main__':
     # lst = list(read_log())
@@ -79,7 +83,8 @@ if __name__ == '__main__':
     # print()
     # print_entries(lst)
     lst = list(read_file())
-    for elem in get_failed_reads(lst, False):
-        print(f'{elem[0]}\n{elem[1]}')
+    print(log_to_dict(lst))
+    # for elem in get_failed_reads(lst, False):
+    #     print(f'{elem[0]}\n{elem[1]}')
     # for elem in get_entries_by_extension(lst, '.gif'):
     #     print(elem)
