@@ -7,8 +7,7 @@ def sent_gb(logs):
     return total_bytes / 1024**3
 
 
-
 if __name__ == '__main__':
-    # logs = list(read_log())
-    logs = list(read_file())
+    logs = list(read_log())
+    # logs = list(read_file())
     print(round(sent_gb(logs), 2), "GB")

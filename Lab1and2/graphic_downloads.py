@@ -3,6 +3,7 @@ from numpy import round
 
 ACCEPTED_EXTENSIONS = ('gif', 'jpg', 'jpeg', 'xbm', 'png')
 
+
 def get_ratio(logs):
     """graphic/non_graphic ratio + graphic
 
@@ -22,6 +23,6 @@ def get_ratio(logs):
 
 
 if __name__ == '__main__':
-    # logs = list(read_log())
-    logs = list(read_file())
+    logs = list(read_log())
+    # logs = list(read_file())
     print(get_ratio(logs))

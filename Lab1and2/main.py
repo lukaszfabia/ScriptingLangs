@@ -110,26 +110,29 @@ def summarize_logs(logs: dict):
 
     return data
 
+
 def print_dict_entry_dates(data: dict):
     for host, log in data.items():
         if host != 'ratio':
-            print(f'\n\n{host}:\n\n\tamount of requests: {log["amount of requests"]}')
+            print(f'\n\n{host}:\n\n\tamount of requests: {
+                  log["amount of requests"]}')
             print(f'\tfirst request: {log["first request"]}')
             print(f'\tlast request: {log["last request"]}')
     print(f'\nratio: {data["ratio"]}')
 
 
 if __name__ == '__main__':
-    # lst = list(read_log())
+    lst = list(read_file('NASA.txt'))
     # sorted_lst = sort_log(lst, key=lambda log: log.bytes_)
     # for curr in sorted_lst:
     #     print(curr)
-    # print(get_entries_by_addr(lst, 'pl'))
+    for elem in get_entries_by_addr(lst, '199.120.110.21'):
+        print(elem)
     # print()
     # print_entries(lst)
-    lst = list(read_file('tmp.txt'))
-    dic = log_to_dict(lst)
-    keys = get_addrs(dic)
-    print_dict_entry_dates(summarize_logs(dic))
+    # lst = list(read_file('tmp.txt'))
+    # dic = log_to_dict(lst)
+    # keys = get_addrs(dic)
+    # print_dict_entry_dates(summarize_logs(dic))
     # for elem in get_entries_by_extension(lst, '.gif'):
     #     print(elem)

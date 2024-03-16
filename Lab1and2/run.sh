@@ -9,5 +9,10 @@ path_to_file=$PWD/Lab1and2/NASA.txt
 path_to_script=$PWD/Lab1and2/$file
 python $path_to_script $@ < $path_to_file
 
+echo "Program finished, closing in 5 seconds"
+for i in {5..1}
+do
+    sleep 1
+done
 
-echo "End of the program"
+clear
