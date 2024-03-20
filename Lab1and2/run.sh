@@ -15,4 +15,4 @@ do
     sleep 1
 done
 
-clear
+# clear

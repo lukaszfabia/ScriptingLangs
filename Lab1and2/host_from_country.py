@@ -9,14 +9,14 @@ def get_host_from(logs, domain: str):
         domain (str): domain to search for
     """
     for log in logs:
-        if log.host_.endswith(domain):
+        if log[0].endswith(domain):
             print(log)
         else:
             pass
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     logs = list(read_log())
     # logs = list(read_file())
-    params = read_params('pl')
+    params = read_params("pl")
     get_host_from(logs, domain=params[0])

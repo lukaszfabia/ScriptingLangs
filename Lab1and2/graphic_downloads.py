@@ -1,7 +1,7 @@
 from iostream import *
 from numpy import round
 
-ACCEPTED_EXTENSIONS = ('gif', 'jpg', 'jpeg', 'xbm', 'png')
+ACCEPTED_EXTENSIONS = ("gif", "jpg", "jpeg", "xbm", "png")
 
 
 def get_ratio(logs):
@@ -15,14 +15,14 @@ def get_ratio(logs):
     """
     graphic = non_graphic = 0
     for log in logs:
-        if log.path_.endswith(ACCEPTED_EXTENSIONS):
+        if log[3].endswith(ACCEPTED_EXTENSIONS):
             graphic += 1
         else:
             non_graphic += 1
     return round(graphic / (graphic + non_graphic), 2)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     logs = list(read_log())
     # logs = list(read_file())
     print(get_ratio(logs))
