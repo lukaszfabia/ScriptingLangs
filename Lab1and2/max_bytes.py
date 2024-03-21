@@ -6,8 +6,9 @@ def get_max_bytes(logs: list):
     res = reduce(
         lambda current_max, curr: current_max if current_max[5] > curr[5] else curr,
         logs,
-    )[5]
-    return res
+    )
+
+    return res[5], res[3]
 
 
 if __name__ == "__main__":

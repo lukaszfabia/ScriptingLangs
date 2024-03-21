@@ -21,28 +21,28 @@ log1 = (
     'ix-sd11-26.ix.netcom.com - - [01/Jul/1995:00:05:06 -0400] "GET / HTTP/1.0" 302 -'
 )
 
-host = r"(\S+)"
-date = r"(\d{2}/\w{3}/\d{4}:\d{2}:\d{2}:\d{2})"
-timezone = r"([+\-]\d{4})"
-method = r'"(\S+)'
-path = r"(\S+)"
-response_code = r"(\d{3})"
-byte_size = r"(\S+)"
+host = r"(\S+)"  # ciag znakow nie zawierajacych spacji
+date = r"(\d{2}/\w{3}/\d{4}:\d{2}:\d{2}:\d{2})"  # 01/Jul/1995:00:05:06
+timezone = r"([+\-]\d{4})"  # + lub - i 4 cyfry
+method = r'"(\S+)'  # ciag znakow nie zawierajacych spacji zaczynajacy sie od "
+path = r"(\S+)"  # ciag znakow nie zawierajacych spacji
+response_code = r"(\d{3})"  # 3 cyfry
+byte_size = r"(\S+)"  # ciag znakow nie zawierajacych spacji
 
 REGEX = (
-    r"^"
+    r"^"  # poczatek linii
     + host
-    + r" - - \["
-    + date
-    + r" "
+    + r" - - \["  # spacje i znaki specjalne
+    + date  # data
+    + r" "  # spacja
     + timezone
-    + r"\] "
+    + r"\] "  # znaki specjalne
     + method
-    + r".*? "
+    + r".*? "  # dowolny znak 0 lub wiecej razy (lapiemy spacje)
     + path
-    + r'.*?" '
+    + r'.*?" '  # dowolny znak 0 lub wiecej razy i koniec na "
     + response_code
-    + r" "
+    + r" "  # spacja
     + byte_size
 )
 

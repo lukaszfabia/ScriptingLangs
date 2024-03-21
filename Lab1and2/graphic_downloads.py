@@ -19,7 +19,7 @@ def get_ratio(logs):
             graphic += 1
         else:
             non_graphic += 1
-    return round(graphic / (graphic + non_graphic), 2)
+    return round(graphic / non_graphic, 2)
 
 
 if __name__ == "__main__":
