@@ -3,3 +3,8 @@ __pycache__/
 .env
 
 *.txt
+
+node_modules/
+
+*.json
+*.csv

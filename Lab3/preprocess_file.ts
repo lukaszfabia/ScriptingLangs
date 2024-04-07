@@ -7,7 +7,7 @@ const rl = readline.createInterface({
 });
 
 const getInput = () =>
-  rl.question("enter a path for file:", (userInput: string) => {
+  rl.question("", (userInput: string) => {
     rl.close();
     let analiysis = new AnaliysisFile(userInput);
     analiysis.readDataAndSplit();

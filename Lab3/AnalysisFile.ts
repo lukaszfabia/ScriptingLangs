@@ -1,4 +1,5 @@
 import * as path from "path";
+import fs from "fs";
 
 export class AnaliysisFile {
   private fileName: string;
@@ -9,8 +10,11 @@ export class AnaliysisFile {
   }
 
   public readDataAndSplit(): void {
-    const fs = require("fs");
-    this.data = fs.readFileSync(this.fileName, "utf8").split("\n");
+    try {
+      this.data = fs.readFileSync(this.getFilePath, "utf8").split(/\s+|\n/);
+    } catch (error) {
+      console.error("Wrong path or file name");
+    }
   }
 
   private get getFilePath(): string {
@@ -31,7 +35,6 @@ export class AnaliysisFile {
 
   private get mostCommonWord(): [string, number] {
     let mapWords = this.countKeyInMap(this.getWords());
-
     return this.findMax(mapWords);
   }
 
@@ -63,12 +66,12 @@ export class AnaliysisFile {
   }
 
   public saveToJson(): void {
-    const fs = require("fs");
-    fs.writeFileSync("result.json", this.createJson());
+    // fs.writeFileSync("analysis_" + this.fileName + ".json", this.createJson());
+    this.createJson();
   }
 
   private get getNumberOfLines(): number {
-    return this.data.length;
+    return fs.readFileSync(this.getFilePath, "utf8").split("\n").length;
   }
 
   private createJson(): string {
@@ -80,6 +83,7 @@ export class AnaliysisFile {
       "most common word": this.mostCommonWord,
       "most common letter": this.mostCommonLetter,
     };
+    console.log(data);
 
     return JSON.stringify(data);
   }
