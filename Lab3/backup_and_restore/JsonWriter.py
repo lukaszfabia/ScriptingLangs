@@ -17,7 +17,7 @@ class JsonWriter:
         """add to history new backup information
 
         Args:
-            data (_type_): _description_
+            data (_type_): chosen backup information
         """
 
         with open(self.path, "r+") as file:
@@ -33,10 +33,10 @@ class JsonWriter:
             file.truncate()
 
     def remove(self, data: dict[str, str]) -> None:
-        """remove backup information from history
+        """remove data frome history
 
         Args:
-            data (_type_): _description_
+            data (dict[str, str]): chosen data to remove
         """
 
         with open(self.path, "r+") as file:

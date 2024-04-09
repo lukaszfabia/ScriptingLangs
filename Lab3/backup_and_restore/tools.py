@@ -18,15 +18,12 @@ def get_src_path() -> str:
 
 
 def get_backup_path() -> str:
+    """backup directory path
+
+    Returns:
+        str: path to the backup directory or default env path
+    """
     backup_dir = os.environ.get(
         "BACKUPS_DIR", os.path.join(os.path.expanduser("~"), ".backup")
     )
     return backup_dir
-
-
-def update_history():
-    pass
-
-
-def remove_from_history():
-    pass

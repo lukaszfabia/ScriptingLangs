@@ -7,7 +7,11 @@ import subprocess
 
 
 def create_backup_dir(dest: str) -> None:
-    """creates backup directory if it does not exist"""
+    """creates backup directory if it does not exist
+
+    Args:
+        dest (str): destination path
+    """
 
     if not os.path.exists(dest):
         os.makedirs(dest, exist_ok=True)
