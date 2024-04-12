@@ -1,4 +1,5 @@
 from iostream import *
+from typing import Iterable
 
 # 691502 klothos.crl.research.digital.com - - [10/Jul/1995:16:45:50 -0400] "♣☺" 400 -
 # 1421674 firewall.dfw.ibm.com - - [20/Jul/1995:07:34:34 -0400] "1/history/apollo/images/" 400 -
@@ -32,7 +33,12 @@ def get_entries_by_code(logs, code: str):
             yield log
 
 
-def get_failed_reads(logs, is_merged=False) -> list | tuple[list, list]:
+# mozna napisac te 2 funckje jako jedna enum class jako key
+
+
+def get_failed_reads(
+    logs: list[tuple], is_merged: bool = False
+) -> list | tuple[list, list]:
     failed_logs = []
     lst4xx = []
     lst5xx = []
@@ -51,11 +57,11 @@ def get_failed_reads(logs, is_merged=False) -> list | tuple[list, list]:
     return failed_logs
 
 
-def get_entries_by_extension(logs, extension: str):
+def get_entries_by_extension(logs: list[tuple], extension: str):
     return filter(lambda log: log[3].endswith(extension), logs)
 
 
-def print_entries(lst):
+def print_entries(lst) -> None:
     for entry in lst:
         print(entry)
 
@@ -71,7 +77,7 @@ def dict(log):
     }
 
 
-def log_to_dict(logs: list) -> dict:
+def log_to_dict(logs: list[tuple]) -> dict:
     dic = {}
     # krotka i słownik z elementów krotki
     for log in logs:
@@ -85,7 +91,7 @@ def get_addrs(logs: dict):
         yield log
 
 
-def summarize_logs(logs: dict):
+def summarize_logs(logs: dict) -> dict:
     """prints the dates of the logs for each host
         model of the dictionary:
         {
@@ -134,7 +140,7 @@ def summarize_logs(logs: dict):
     return data
 
 
-def print_dict_entry_dates(data: dict):
+def print_dict_entry_dates(data: dict) -> None:
     for host, log in data.items():
         if host != "ratio":
             print(f'\n\n{host}:\n\n\tamount of requests: {log["amount of requests"]}')
