@@ -9,18 +9,18 @@ def get_n(flag: str) -> int:
         return 10
 
 
-def tail(contents: str, flag="") -> None:
+def tail(contents: str, flag: str = "") -> None:
     lines = contents.splitlines()
     for line in lines[-get_n(flag) :]:
         print(line)
 
 
-def preprocess_line(args: list):
+def preprocess_line(args: list) -> None:
     if len(args) == 1:
         tail(contents=sys.stdin.read())
     elif "." in sys.argv[1]:
         with open(args[1], "r") as file:
-            tail(file.read())
+            tail(file.read(), flag=str(args[2]))
     else:
         tail(contents=sys.stdin.read(), flag=str(args[1]))
 

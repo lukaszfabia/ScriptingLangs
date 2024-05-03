@@ -42,11 +42,13 @@ class MESSAGE_TYPE(Enum):
     UNKNOWN = r"others"
 
 
+"""tuple of message info types"""
 MESSAGE_INFO_TYPE = (
     MESSAGE_TYPE.ACCEPTED_PASSWORD.name,
     MESSAGE_TYPE.CONNECTION_CLOSED.name,
 )
 
+"""tuple of message warning types"""
 MESSAGE_WARNING_TYPE = (
     MESSAGE_TYPE.FAILED_PASSWORD.name,
     MESSAGE_TYPE.FAILED_NONE.name,
@@ -55,6 +57,7 @@ MESSAGE_WARNING_TYPE = (
     MESSAGE_TYPE.REPEATED_MESSAGE.name,
 )
 
+"""tuple of message error types"""
 MESSAGE_ERROR_TYPE = (
     MESSAGE_TYPE.DID_NOT_RECEIVE.name,
     MESSAGE_TYPE.TOO_MANY_AUTHENTICATION_FAILURES_ADMIN.name,
@@ -63,4 +66,5 @@ MESSAGE_ERROR_TYPE = (
     MESSAGE_TYPE.ERROR_OR_FATAL_OR_BAD_PROTOCOL.name,
 )
 
+"""tuple of message critical types"""
 MESSAGE_CRITICAL_TYPE = (MESSAGE_TYPE.BREAK_IN_ATTEMPT.name,)

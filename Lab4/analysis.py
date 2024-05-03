@@ -8,7 +8,7 @@ from main import get_logs
 import SSHParser
 
 
-def convert(date: str) -> timedelta:
+def convert(date: str) -> float:
     """convert date to seconds
 
     Args:
@@ -52,7 +52,7 @@ def calc_time_for_user(logs: Iterable[str]) -> Dict[str, Tuple[str, str]]:
     user_and_time: Dict[str, List[int]] = {}
     for log in logs:
         parsed_log: SSHParser.SSHLog | None = SSHParser.parse(log)
-        user: str | None = SSHParser.get_user_from_log(parsed_log)
+        user: str | None = SSHParser.get_user(parsed_log)
         if parsed_log and user:
             if user in user_and_time:
                 user_and_time[user].append(convert(parsed_log.time))
@@ -97,21 +97,19 @@ def get_random_log_of_random_user(logs: Iterable[str], n: int) -> List[str]:
 
     # getting random user
     while random_user is None:
-        random_user = SSHParser.get_user_from_log(
+        random_user = SSHParser.get_user(
             parsed_logs[random.randint(0, len(parsed_logs) - 1)]
         )
 
     print(f"Random user: {random_user}")
-    user_logs = [
-        log.content
-        for log in parsed_logs
-        if SSHParser.get_user_from_log(log) == random_user
-    ]
+    user_logs = [log for log in parsed_logs if SSHParser.get_user(log) == random_user]
     return random.sample(user_logs, min(n, len(user_logs)))
 
 
 @dataclass(frozen=True)
 class UsersActivity:
+    """represents user activity"""
+
     username: str
     activity: int
 
@@ -119,11 +117,22 @@ class UsersActivity:
         return f"{self.username}: {self.activity}"
 
 
-def get_stats_for_user(logs: Iterable[str], see_all=False) -> List[UsersActivity]:
+def get_stats_for_user(
+    logs: Iterable[str], see_all: bool = False
+) -> List[UsersActivity]:
+    """Get statistics for all users
+
+    Args:
+        logs (Iterable[str]): raw logs
+        see_all (bool, optional): all users activity. Defaults to False.
+
+    Returns:
+        List[UsersActivity]: list with users activity
+    """
     activity: Dict[str, int] = {}
     for log in logs:
         parsed_log: SSHParser.SSHLog | None = SSHParser.parse(log)
-        user: str | None = SSHParser.get_user_from_log(parsed_log)
+        user: str | None = SSHParser.get_user(parsed_log)
         if user:
             if user in activity:
                 activity[user] += 1

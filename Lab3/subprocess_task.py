@@ -18,6 +18,8 @@ def get_path_from_line() -> str:
 def iterate_file(path: str) -> list[dict[str, str]]:
     results: list[dict[str, str]] = []
     for file in os.listdir(path):
+        if os.path.isdir(file):
+            continue
         result = subprocess.run(
             ["ts-node", "preprocess_file.ts", str(pathlib.Path(path))],
             input=f"{file}\n",

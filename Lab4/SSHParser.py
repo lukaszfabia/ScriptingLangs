@@ -4,6 +4,7 @@ import re
 import ipaddress
 from typing import Iterable
 from Types import MESSAGE_TYPE
+import abc
 
 
 parts = {
@@ -14,6 +15,8 @@ parts = {
     "pid": r"sshd\[(\d+)\]:",
     "content": r"(.+)",  # This will match the rest of the line
 }
+
+IP_PATTERN = r"\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}"
 
 
 @dataclass
@@ -54,10 +57,10 @@ def parse(line: str) -> SSHLog | None:
     return None
 
 
-def get_ipv4s_from_log(log: SSHLog | None) -> Iterable[str]:
+def get_ipv4s(log: SSHLog | None) -> Iterable[str]:
     if not log:
         return
-    ip = re.search(r"\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}", log.content)
+    ip = re.search(IP_PATTERN, log.content)
     if ip:
         try:
             ipaddress.ip_address(ip.group())
@@ -66,7 +69,7 @@ def get_ipv4s_from_log(log: SSHLog | None) -> Iterable[str]:
         yield ip.group()
 
 
-def get_user_from_log(log: SSHLog | None) -> str | None:
+def get_user(log: SSHLog | None) -> str | None:
     if not log:
         return
 

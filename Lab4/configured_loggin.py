@@ -13,27 +13,33 @@ from Types import (
 
 class SSHLogger(Logger):
     def __init__(self, name: str, level: int | str = 0) -> None:
+        """
+        Initialize the SSHLogger with a name and level.
+
+        Args:
+            name (str): general name of the content log
+            level (int | str): The level of the logger. Default is 0.
+        """
         super().__init__(name, level)
 
-        # Create handlers
-        c_handler = logging.StreamHandler(sys.stdout)
-        e_handler = logging.StreamHandler(sys.stderr)
+        debug_handler = logging.StreamHandler(sys.stdout)
+        error_handler = logging.StreamHandler(sys.stderr)
+        info_handler = logging.StreamHandler(sys.stdout)
+        warning_handler = logging.StreamHandler(sys.stdout)
+        critical_handler = logging.StreamHandler(sys.stderr)
 
-        # Set level for handlers
-        c_handler.setLevel(logging.DEBUG)
-        e_handler.setLevel(logging.ERROR)
+        debug_handler.setLevel(logging.DEBUG)
+        error_handler.setLevel(logging.ERROR)
+        info_handler.setLevel(logging.INFO)
+        warning_handler.setLevel(logging.WARNING)
+        critical_handler.setLevel(logging.CRITICAL)
 
-        # Create formatters and add it to handlers
-        c_format = logging.Formatter("%(name)s - %(message)s")
-        e_format = logging.Formatter("%(name)s - %(message)s")
-        c_handler.setFormatter(c_format)
-        e_handler.setFormatter(e_format)
+        formatter = logging.Formatter("%(name)s - %(message)s")
+        c_format = formatter
+        e_format = formatter
 
-        # Add handlers to the logger
-        self.addHandler(c_handler)
-        self.addHandler(e_handler)
-
-        logging.basicConfig(level=logging.DEBUG)
+        debug_handler.setFormatter(c_format)
+        error_handler.setFormatter(e_format)
 
     def bytes(self, log: str) -> int:
         """logging the bytes of the every lane(log)
@@ -49,14 +55,19 @@ class SSHLogger(Logger):
         return bytes
 
     def log(self, id: str) -> None:
+        """logging the message with the id
+
+        Args:
+            id (str): represents the id of the message
+        """
         if self.name in MESSAGE_INFO_TYPE:
-            info(f"INFO {id+1}: {self.name}")
+            self.info(f"INFO {id+1}: {self.name}")
 
         elif self.name in MESSAGE_WARNING_TYPE:
-            warning(f"WARNING {id+1}: {self.name}")
+            self.warning(f"WARNING {id+1}: {self.name}")
 
         elif self.name in MESSAGE_ERROR_TYPE:
-            error(f"ERROR {id+1}: {self.name}")
+            self.error(f"ERROR {id+1}: {self.name}")
 
         elif self.name in MESSAGE_CRITICAL_TYPE:
-            critical(f"CRITICAL {id+1}: {self.name}")
+            self.critical(f"CRITICAL {id+1}: {self.name}")
