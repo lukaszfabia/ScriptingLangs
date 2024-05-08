@@ -53,7 +53,7 @@ def flatten(lst: List[Any]) -> List[Any]:
         case []:
             return []
         case [head, *tail]:
-            match isinstance(head, list):
+            match isinstance(head, (list, tuple)):
                 case True:
                     return flatten(head) + flatten(tail)
                 case _:
