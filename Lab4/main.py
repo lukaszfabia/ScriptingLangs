@@ -1,6 +1,7 @@
 from pathlib import Path
 import sys
-from typing import Iterable
+from typing import Dict, Iterable, List, Tuple
+from detect_attacks import detect_attack
 import SSHParser
 import logging
 from configured_loggin import SSHLogger
@@ -8,6 +9,7 @@ import typer
 import analysis
 from dotenv import load_dotenv
 import os
+from datetime import datetime
 
 app = typer.Typer()
 
@@ -97,7 +99,7 @@ def rd(n: int = 5) -> None:
         logger.log(id)
 
 
-@app.command()
+@app.command(help="usage: python main.py time ?--for_all")
 def time(for_all: bool = False) -> None:
     """usage: python main.py time ?--for_all - prints time for all users
     Args:
@@ -109,14 +111,20 @@ def time(for_all: bool = False) -> None:
         print(analysis.calc_time(get_logs()))
 
 
-@app.command()
+@app.command(help="usage: python main.py main")
 def main() -> None:
-    """usage: python main.py main"""
-
     @iter
     def aux(parsed_log: SSHParser.SSHLog | None, logger: SSHLogger, id: int, log: str):
         logger.bytes(log)
         logger.log(id)
+
+
+@app.command(
+    help="usage: python main.py attacks [--single] [--sec=int] - detect attacks",
+)
+def attacks(single: bool = False, sec: int = 30) -> None:
+    for attack in detect_attack(single=single, raw_logs=get_logs(), interval_sec=sec):
+        print(attack)
 
 
 if __name__ == "__main__":

@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from datetime import datetime
 from functools import reduce
 import re
 import ipaddress
@@ -16,7 +17,7 @@ parts = {
     "content": r"(.+)",  # This will match the rest of the line
 }
 
-IP_PATTERN = r"\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}"
+IP_PATTERN = r"(\b25[0-5]|\b2[0-4][0-9]|\b[01]?[0-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}"
 
 
 @dataclass
@@ -37,6 +38,19 @@ class SSHLog:
             "pid": self.pid,
             "content": self.content,
         }
+
+    def get_time(self):
+        current_year = datetime.now().year
+        return datetime.strptime(
+            f"{current_year} {self.date} {self.day} {self.time}", "%Y %b %d %H:%M:%S"
+        )
+
+    def get_content(self):
+        return self.content
+
+    def get_ip(self):
+        if ip := re.search(IP_PATTERN, self.content):
+            return ip.group()
 
 
 def parse(line: str) -> SSHLog | None:
