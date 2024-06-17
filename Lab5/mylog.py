@@ -60,8 +60,8 @@ def attack():
 
 
 if __name__ == "__main__":
-    # p = Person("John", 25)
-    # print(p)
+    p = Person("John", 25)
+    print(p)
 
     compute(1, 2, 3, 4, 5)
     attack()

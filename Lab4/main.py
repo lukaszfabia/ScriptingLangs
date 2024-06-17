@@ -1,15 +1,12 @@
 from pathlib import Path
-import sys
 from typing import Dict, Iterable, List, Tuple
 from detect_attacks import detect_attack
 import SSHParser
-import logging
 from configured_loggin import SSHLogger
 import typer
 import analysis
 from dotenv import load_dotenv
 import os
-from datetime import datetime
 
 app = typer.Typer()
 
@@ -40,9 +37,9 @@ def iter(func: callable) -> None:
     """
     for id, log in enumerate(get_logs()):
         parsed_log = SSHParser.parse(log)
-        # logger: SSHLogger = SSHLogger()
+        logger: SSHLogger = SSHLogger()
 
-        # logger.bytes(log)
+        logger.bytes(log)
         func(
             parsed_log=parsed_log,
             logger=SSHLogger(str(SSHParser.get_message_type(parsed_log).name)),
@@ -60,8 +57,6 @@ def users() -> None:
         if user := SSHParser.get_user(parsed_log):
             print(user)
 
-    # iter(users_aux)
-
 
 @app.command()
 def msg() -> None:
@@ -71,7 +66,7 @@ def msg() -> None:
     def msg_type_aux(
         parsed_log: SSHParser.SSHLog | None, logger: SSHLogger, id: int, **kwargs
     ) -> None:
-        # print(SSHParser.get_message_type(parsed_log).name)
+        print(SSHParser.get_message_type(parsed_log).name)
         logger.log(id)
 
 
@@ -122,7 +117,7 @@ def main() -> None:
 @app.command(
     help="usage: python main.py attacks [--single] [--sec=int] - detect attacks",
 )
-def attacks(single: bool = False, sec: int = 30) -> None:
+def attacks(single: bool = True, sec: int = 30) -> None:
     for attack in detect_attack(single=single, raw_logs=get_logs(), interval_sec=sec):
         print(attack)
 

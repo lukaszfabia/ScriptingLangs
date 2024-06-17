@@ -46,7 +46,8 @@ def update_attempts_and_attacks(
 
     attempts[key].append(timestamp)
 
-    if len(attempts[key]) > 5:
+    # dodajemy gdy bylo 6 failed
+    if len(attempts[key]) >= 6:
         first_attempt = min(attempts[key])
         last_attempt = max(attempts[key])
         attacks.append(
@@ -63,26 +64,30 @@ def update_attempts_and_attacks(
 def detect_attack(
     raw_logs: Iterable[str], interval_sec: int, single: bool
 ) -> List[Attack]:
-    """detect brute force attacks
+    """Detect brute force attacks.
+
+    This function takes in a collection of raw logs and detects brute force attacks based on the provided parameters.
 
     Args:
-        raw_logs (Iterable[str]): line with logs to parse
-        interval_sec (int, optional): range of time. Defaults to 30.
-        single (bool, optional): is for single user. Defaults to True.
+        raw_logs (Iterable[str]): A collection of log lines to parse.
+        interval_sec (int, optional): The time range in seconds to consider for detecting attacks. Defaults to 30.
+        single (bool, optional): Indicates whether the detection is for a single user or all users. Defaults to True.
 
     Returns:
-        List[Attack]: list of attacks of a given user or all users
+        List[Attack]: A list of detected attacks for the given user(s).
+
     """
     attempts: Dict[Tuple[str, Optional[str]], List[datetime]] = {}
     attacks: List[Attack] = []
 
     for log in raw_logs:
         log = parse(log)
+        # bierzemy tylko failed
         if failed(log):
             ips = get_ipv4s(log)
             user = get_user(log) if single else None
             timestamp = log.get_time()
-
+            # lecimy po logach
             for ip in ips:
                 update_attempts_and_attacks(
                     attempts, attacks, ip, user, timestamp, interval_sec
